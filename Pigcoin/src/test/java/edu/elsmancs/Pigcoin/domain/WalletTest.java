@@ -12,6 +12,8 @@ public class WalletTest {
         wallet.generateKeyPair();
         assertNotNull(wallet.getAddress().hashCode());
         assertNotNull(wallet.getSkey().hashCode());
-        assertEquals(0,wallet.getBalance(), 0d);
+        assertEquals(0, wallet.getBalance(), 0d);
     }
+
+
 }

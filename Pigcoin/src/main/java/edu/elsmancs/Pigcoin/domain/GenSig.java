@@ -1,5 +1,9 @@
 package edu.elsmancs.Pigcoin.domain;
 
+/**
+ * Clase proporcionada por dfleta
+ */
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
