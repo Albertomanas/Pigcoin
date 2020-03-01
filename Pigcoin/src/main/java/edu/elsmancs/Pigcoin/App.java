@@ -3,6 +3,8 @@ package edu.elsmancs.Pigcoin;
 import java.security.KeyPair;
 import java.util.Map;
 
+
+import edu.elsmancs.Pigcoin.domain.*;
 public class App {
 
     public static void main( String[] args )
