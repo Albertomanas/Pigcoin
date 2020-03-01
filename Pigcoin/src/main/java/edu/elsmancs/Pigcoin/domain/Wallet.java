@@ -31,4 +31,11 @@ public class Wallet {
         this.setSK(pair.getPrivate());
         this.setAddress(pair.getPublic());
     }
+
+    @Override
+    public String toString() {
+        return "\n Wallet = " + getAddress().hashCode() + "\n Total input = " +
+                this.total_input + "\n Total output = " + this.total_output +
+                "\n Balance = " + this.balance;
+    }
 }
