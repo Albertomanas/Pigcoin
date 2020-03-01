@@ -39,5 +39,9 @@ public class Transaction {
                 this.pKey_recipinet.hashCode() + "\n pigcoins = " + this.pigcoins +
                 "\n message = " + this.message;
     }
+
+    public PublicKey getPkeySender() {
+        return this.pKey_sender;
+    }
 }
 
