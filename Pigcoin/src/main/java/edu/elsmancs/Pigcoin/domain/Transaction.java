@@ -17,6 +17,7 @@ public class Transaction {
      */
     private double pigcoins = 0d;
     private String message = null;
+    private byte[] signature = null;
 
     public Transaction(String hash, String prev_hash, PublicKey pKey_sender,
                        PublicKey pKey_recipinet, double pigcoins, String message) {
