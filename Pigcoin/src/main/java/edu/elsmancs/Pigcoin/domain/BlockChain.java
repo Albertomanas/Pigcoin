@@ -10,8 +10,16 @@ public class BlockChain {
     public BlockChain(){
     }
 
+    public List<Transaction> getBlockChain() {
+        return this.blockChain;
+    }
+
     public void addOrigin(Transaction transaction) {
-        this.blockChain.add(transaction);
+        this.getBlockChain().add(transaction);
+
+        /** Añadir a blockChain una transacción
+         *
+         */
     }
 
     public void summarize(int position){
@@ -23,4 +31,6 @@ public class BlockChain {
             System.out.println(transaction.toString());
         }));
     }
+
 }
+
