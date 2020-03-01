@@ -14,6 +14,9 @@ public class Wallet {
     private double balance = 0d;
 
 
+    public Wallet() {
+    }
+
     public void setSK(PrivateKey sKey) {
         this.sKey = sKey;
     }
@@ -24,6 +27,10 @@ public class Wallet {
 
     public PublicKey getAddress() {
         return this.address;
+    }
+
+    public PrivateKey getSkey() {
+        return this.sKey;
     }
 
     public void generateKeyPair() {
@@ -38,4 +45,10 @@ public class Wallet {
                 this.total_input + "\n Total output = " + this.total_output +
                 "\n Balance = " + this.balance;
     }
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+
 }
