@@ -6,6 +6,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Wallet {
 
@@ -112,7 +113,9 @@ public class Wallet {
      *
      * lo mismo a la inversa para recipient
      * */
-    public void loadInputTransactions(BlockChain bChain) {
+
+
+    /**public void loadInputTransactions(BlockChain bChain) {
         for (Transaction transaction : bChain.getBlockChain()){
             if (transaction.getpKeyRecipient().equals(getAddress())) {
                 inputTransactions.add(transaction);
@@ -120,12 +123,35 @@ public class Wallet {
         }
     }
 
-    public void loadOutputTransactions(BlockChain bChain) {
+     */
+
+    public void loadInputTransactions(BlockChain bChain) {
+        /**
+         * REFACTORIZACIÓN a stream, filter y collectors
+         */
+
+        bChain.getBlockChain().stream().filter(transaction -> transaction.getpKeyRecipient().equals(getAddress())).forEachOrdered(transaction -> {
+            this.inputTransactions.add(transaction);
+        });
+    }
+
+    /**public void loadOutputTransactions(BlockChain bChain) {
         for (Transaction transaction : bChain.getBlockChain()){
             if (transaction.getPkeySender().equals(getAddress())) {
                 outputTransactions.add(transaction);
             }
         }
+    }
+     */
+
+    public void loadOutputTransactions(BlockChain bChain) {
+        /**
+         * REFACTORIZACiÓN a stream, filter y collectors.
+         */
+
+        bChain.getBlockChain().stream().filter(transaction -> transaction.getPkeySender().equals(getAddress())).forEachOrdered(transaction -> {
+            this.outputTransactions.add(transaction);
+        });
     }
 
     public List<Transaction> getInputTransactions() {
@@ -145,6 +171,5 @@ public class Wallet {
     public byte[] signTransaction(String message) {
         return GenSig.sign(getSkey(), message);
     }
-
 
 }
