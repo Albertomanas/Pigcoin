@@ -51,4 +51,26 @@ public class Wallet {
     }
 
 
+    /**Para poder hacer el método loadCoins es necesario:
+     * 1. loadWallet(PublicKey address) CARGA LOS PIGCOINS DE SENDER Y RECEIVER
+     *          ES UN MÉTODO DE BlockChain
+     * 2. setTotalInput y setTotalOutput
+     */
+
+    public void setTotalInput(double total_input) {
+        this.total_input += total_input;
+    }
+
+    public double getTotalInput() {
+        return this.total_input;
+    }
+
+    public void setTotalOutput(double total_output) {
+        this.total_output += total_output;
+    }
+
+    public double getTotalOutput() {
+        return this.total_output;
+    }
+
 }
