@@ -142,5 +142,9 @@ public class Wallet {
 
      */
 
+    public byte[] signTransaction(String message) {
+        return GenSig.sign(getSkey(), message);
+    }
+
 
 }
