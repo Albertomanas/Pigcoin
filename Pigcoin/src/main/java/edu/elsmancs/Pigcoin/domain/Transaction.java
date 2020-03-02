@@ -48,5 +48,9 @@ public class Transaction {
     public PublicKey getpKeyRecipinet() {
         return this.pKey_recipinet;
     }
+
+    public double getPigcoins() {
+        return this.pigcoins;
+    }
 }
 
