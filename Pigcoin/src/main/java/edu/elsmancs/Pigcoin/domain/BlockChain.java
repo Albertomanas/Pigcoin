@@ -45,7 +45,7 @@ public class BlockChain {
         double pigcoinsEntrada = 0d;
         double pigcoinsSalida = 0d;
         for (Transaction transaction : getBlockChain()) {
-            if (address.equals(transaction.getpKeyRecipinet())) {
+            if (address.equals(transaction.getpKeyRecipient())) {
                 pigcoinsEntrada += transaction.getPigcoins();
             }
             if (address.equals(transaction.getPkeySender())) {
