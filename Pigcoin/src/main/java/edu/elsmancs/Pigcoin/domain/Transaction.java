@@ -43,7 +43,10 @@ public class Transaction {
 
     public PublicKey getPkeySender() {
         return this.pKey_sender;
+    }
 
+    public PublicKey getpKeyRecipinet() {
+        return this.pKey_recipinet;
     }
 }
 
