@@ -11,7 +11,7 @@ public class Transaction {
     /**dirección pública de la wallet desde la que se envían los pigcoins.
      * Para el desarrollador, es la publickey de wallet
      */
-    private PublicKey pKey_recipinet;
+    private PublicKey pKey_recipient;
     /**dirección pública de la wallet desde la que se envían los pigcoins(monedero que lso recibe).
      * Para el desarrollador, es la publickey de wallet
      */
@@ -25,7 +25,7 @@ public class Transaction {
             this.hash = hash;
             this.prev_hash = prev_hash;
             this.pKey_sender = pKey_sender;
-            this.pKey_recipinet = pKey_recipinet;
+            this.pKey_recipient = pKey_recipinet;
             this.pigcoins = pigcoins;
             this.message = message;
     }
@@ -37,7 +37,7 @@ public class Transaction {
     public String toString() {
         return "\n hash = " + this.hash + "\n prev_hash = " + this.prev_hash +
                 "\n pKey_sender = " + this.pKey_sender.hashCode() + "\n pKey_recipient = " +
-                this.pKey_recipinet.hashCode() + "\n pigcoins = " + this.pigcoins +
+                this.pKey_recipient.hashCode() + "\n pigcoins = " + this.pigcoins +
                 "\n message = " + this.message;
     }
 
@@ -45,8 +45,8 @@ public class Transaction {
         return this.pKey_sender;
     }
 
-    public PublicKey getpKeyRecipinet() {
-        return this.pKey_recipinet;
+    public PublicKey getpKeyRecipient() {
+        return this.pKey_recipient;
     }
 
     public double getPigcoins() {
