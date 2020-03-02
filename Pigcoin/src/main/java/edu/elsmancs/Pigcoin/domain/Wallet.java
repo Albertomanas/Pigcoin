@@ -4,6 +4,7 @@ package edu.elsmancs.Pigcoin.domain;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.List;
 
 public class Wallet {
 
@@ -12,6 +13,8 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
+    private List<Transaction> inputTransactions = null;
+    private List<Transaction> outputTransactions = null;
 
 
     public Wallet() {
@@ -89,10 +92,24 @@ public class Wallet {
         double[] pigcoinsCargados = {0d, 0d}; //Misma estructura {x, y} de loadWallet
 
         pigcoinsCargados = bChain.loadWallet(getAddress());
-        setTotalInput(pigcoinsCargados[0]);  //Posición 0 corresponde a los de input
-        setTotalOutput(pigcoinsCargados[1]); // Posición 1 corresponde a los output
+        setTotalInput(pigcoinsCargados[0]);  //Posición [0] corresponde a los de input
+        setTotalOutput(pigcoinsCargados[1]); // Posición [1] corresponde a los output
 
         update_balance();
     }
+
+    /**
+     * Setters inputTransactions y outputTransactions que
+     * llamarán a los métodos de BlockChain inputTransactions y outputTransactions
+     *
+     */
+    public void setInputTransactions(List<Transaction> inputTransactions) {
+        this.inputTransactions = inputTransactions;
+    }
+
+    public void setOutputTransactions(List<Transaction> outputTransactions) {
+        this.outputTransactions = outputTransactions;
+    }
+
 
 }
