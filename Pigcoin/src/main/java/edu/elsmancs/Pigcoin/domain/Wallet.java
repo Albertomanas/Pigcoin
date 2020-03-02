@@ -105,6 +105,13 @@ public class Wallet {
      * llamarán a los métodos de BlockChain inputTransactions y outputTransactions
      *
      */
+
+    /**
+     * for que recorra array bChain de transactions que me mire si publickey de sender = getAddress
+     * y añadir en outputtransaction a la array.
+     *
+     * lo mismo a la inversa para recipient
+     * */
     public void loadInputTransactions(BlockChain bChain) {
         for (Transaction transaction : bChain.getBlockChain()){
             if (transaction.getpKeyRecipient().equals(getAddress())) {
@@ -129,11 +136,11 @@ public class Wallet {
         return outputTransactions;
     }
 
-    /**
-     * for que recorra array bChain de transactions que me mire si publickey de sender = getAddress
-     * y añadir en outputtransaction a la array.
-     *
-     * */
+    /**public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain) {
+
+    }
+
+     */
 
 
 }
