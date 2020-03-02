@@ -67,7 +67,7 @@ public class Wallet {
      */
 
     public void setTotalInput(double total_input) {
-        this.total_input += total_input;
+        this.total_input = total_input;
     }
 
     public double getTotalInput() {
@@ -75,7 +75,7 @@ public class Wallet {
     }
 
     public void setTotalOutput(double total_output) {
-        this.total_output += total_output;
+        this.total_output = total_output;
     }
 
     public double getTotalOutput() {
