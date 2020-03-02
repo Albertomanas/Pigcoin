@@ -4,6 +4,7 @@ package edu.elsmancs.Pigcoin.domain;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Wallet {
@@ -13,8 +14,9 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private List<Transaction> inputTransactions = null;
-    private List<Transaction> outputTransactions = null;
+
+    private final List<Transaction> inputTransactions = new ArrayList<>();
+    private final List<Transaction> outputTransactions = new ArrayList<>();
 
 
     public Wallet() {
@@ -103,13 +105,35 @@ public class Wallet {
      * llamarán a los métodos de BlockChain inputTransactions y outputTransactions
      *
      */
-    public void setInputTransactions(List<Transaction> inputTransactions) {
-        this.inputTransactions = inputTransactions;
+    public void loadInputTransactions(BlockChain bChain) {
+        for (Transaction transaction : bChain.getBlockChain()){
+            if (transaction.getpKeyRecipient().equals(getAddress())) {
+                inputTransactions.add(transaction);
+            }
+        }
     }
 
-    public void setOutputTransactions(List<Transaction> outputTransactions) {
-        this.outputTransactions = outputTransactions;
+    public void loadOutputTransactions(BlockChain bChain) {
+        for (Transaction transaction : bChain.getBlockChain()){
+            if (transaction.getPkeySender().equals(getAddress())) {
+                outputTransactions.add(transaction);
+            }
+        }
     }
+
+    public List<Transaction> getInputTransactions() {
+        return inputTransactions;
+    }
+
+    public List<Transaction> getOutputTransactions() {
+        return outputTransactions;
+    }
+
+    /**
+     * for que recorra array bChain de transactions que me mire si publickey de sender = getAddress
+     * y añadir en outputtransaction a la array.
+     *
+     * */
 
 
 }
