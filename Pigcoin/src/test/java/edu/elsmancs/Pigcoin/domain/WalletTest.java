@@ -15,5 +15,40 @@ public class WalletTest {
         assertEquals(0, wallet.getBalance(), 0d);
     }
 
+    @Test
+    public void ComprobarTransaccionPigcoinsTest() {
+        /**
+         * A partir de los ejemplos del main
+         */
 
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+        double delta = 0d;
+
+        BlockChain bChain = new BlockChain();
+        Transaction trx = new Transaction();
+        trx = new Transaction("hash_1", "0", wallet_1.getAddress(), wallet_2.getAddress(), 20, "a flying pig!");
+
+
+        trx = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "bacon eggs");
+        bChain.addOrigin(trx);
+        trx = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "spam spam spam");
+        bChain.addOrigin(trx);
+        trx = new Transaction("hash_3", "hash_1", wallet_1.getAddress(), wallet_2.getAddress(), 20, "a flying pig!");
+        bChain.addOrigin(trx);
+
+        wallet_1.loadCoins(bChain);
+        assertEquals(40, wallet_1.getTotalInput(), delta);
+        assertEquals(40, wallet_1.getTotalOutput(), delta);
+        assertEquals(80, wallet_1.getBalance(), delta);
+
+        wallet_2.loadCoins(bChain);
+        assertEquals(25, wallet_2.getTotalInput(), delta);
+        assertEquals(0, wallet_2.getTotalOutput(), delta);
+        assertEquals(25, wallet_2.getBalance(), delta);
+    }
 }
