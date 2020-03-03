@@ -128,11 +128,18 @@ public class Wallet {
     public void loadInputTransactions(BlockChain bChain) {
         /**
          * REFACTORIZACIÓN a stream, filter y collectors
+         *
+         * FALTA REFACTORIZAR A LISTA
          */
 
         bChain.getBlockChain().stream().filter(transaction -> transaction.getpKeyRecipient().equals(getAddress())).forEachOrdered(transaction -> {
             this.inputTransactions.add(transaction);
         });
+        /**
+         * El Stream usa flujos de datos infinitos, faltaría refactorizar usar collect(Collectors.toCollection)
+         * filter filtra el stream y se suele aplicar con collectors. ufncion que coje una funcion que se la aplica
+         * a los demas  elementos de la array. Solo puede trabajar con funciones logicas (true, false)
+         */
     }
 
     /**public void loadOutputTransactions(BlockChain bChain) {
@@ -147,6 +154,9 @@ public class Wallet {
     public void loadOutputTransactions(BlockChain bChain) {
         /**
          * REFACTORIZACiÓN a stream, filter y collectors.
+         *
+         *
+         * FALTA REFACTORIZAR A LISTA.
          */
 
         bChain.getBlockChain().stream().filter(transaction -> transaction.getPkeySender().equals(getAddress())).forEachOrdered(transaction -> {
