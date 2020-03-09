@@ -1,10 +1,12 @@
 package edu.elsmancs.Pigcoin.domain;
 
+import java.awt.font.TransformAttribute;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BlockChain {
 
@@ -37,7 +39,23 @@ public class BlockChain {
         }));
     }
 
+    /**
+     * Refactorización a List hecha, uso streams, filters y collectors.
+     * @param address
+     * @return
+     */
+    public List<Transaction> loadInputTransactions(PublicKey address) {
+        List<Transaction> inputTransactions = getBlockChain().stream().filter(transaction -> transaction.getpKeyRecipient()
+        .equals(address)).collect(Collectors.toCollection(ArrayList::new));
 
+        return inputTransactions;
+    }
+
+
+    public List<Transaction> loadOutputTransactions(PublicKey address) {
+        List<Transaction> outputTransactions = getBlockChain().stream().filter(transaction -> transaction.getPkeySender()
+        .equals(address)).collect(Collectors.toCollection(ArrayList::new));
+    }
 
     public double[] loadWallet(PublicKey address) {
         /**Carga en el wallet los pigcoins enviados y recibidos en esa dirección
@@ -47,11 +65,8 @@ public class BlockChain {
          *          entonces los pigcoins de in se añaden a la cantidad de pigcoins de este.
          *
          * En caso de que apunte a sender, se suma a este.
-         *
-         * FALTA REFACTORIZAR CREANDO loadInputTransaction y loadOutputTransaction a lista y con
-         *      uso de stream, filter, collect en una estructura de datos de List.
-         *      No es conveniente que wallet conozca la encapsulación de BlockChain.
          */
+
         double pigcoinsEntrada = 0d;
         double pigcoinsSalida = 0d;
         for (Transaction transaction : getBlockChain()) {
