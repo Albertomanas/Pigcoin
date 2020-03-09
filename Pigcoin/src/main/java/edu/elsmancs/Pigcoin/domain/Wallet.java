@@ -229,4 +229,23 @@ public class Wallet {
         }
         return copyCollectCoins;
     }
+
+    /**
+     * sendCoins debe cumplir lo siguiente:
+     * collectCoins(pigcoins);
+     * signTransaction(message);
+     * bChain.processTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction);
+     */
+
+    public void sendCoins(PublicKey pKey_recipient, Double coins, String message, BlockChain bChain) {
+        Map<String, Double> copyConsumedCoins = new LinkedHashMap<>();
+
+        copyConsumedCoins = collectCoins(coins);
+
+        if (copyConsumedCoins != null) {
+            bChain.processTransaction(getAddress(), pKey_recipient, copyConsumedCoins, message, signTransaction(message));
+        }
+
+        this.loadCoins(bChain);
+    }
 }
