@@ -182,6 +182,7 @@ public class Wallet {
         if (getInputTransactions() == null) {
             return null;
             /**
+             * Significa que no tienes dinero, porque no has recibido ninguna transacción.
              *  Transacciones que se han enviado desde la Wallet (Transacciones consumibles)
              */
         }
@@ -198,8 +199,17 @@ public class Wallet {
         /**
          * Método sacado en base al código hecho de dFleta
          */
-        Collection<String> consumedCoins = new HashSet<>();
+
+
+        /**
+         * La estructura de datos Set es para que no se repita.
+         */
+        Set<String> consumedCoins = new HashSet<>();
         if (getOutputTransactions() != null) {
+            /**
+             * Cuantas transacciones han salido de mi Wallet
+             * Se van metiendo en copyCollectCoins el prev_hash (origen de la transacción)
+             */
             for (Transaction transaction : getOutputTransactions()) {
                 consumedCoins.add(transaction.getPrev_hash());
             }
