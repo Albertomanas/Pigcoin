@@ -55,6 +55,7 @@ public class BlockChain {
     public List<Transaction> loadOutputTransactions(PublicKey address) {
         List<Transaction> outputTransactions = getBlockChain().stream().filter(transaction -> transaction.getPkeySender()
         .equals(address)).collect(Collectors.toCollection(ArrayList::new));
+        return outputTransactions;
     }
 
     public double[] loadWallet(PublicKey address) {
