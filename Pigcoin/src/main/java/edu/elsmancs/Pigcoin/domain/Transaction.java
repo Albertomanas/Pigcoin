@@ -52,5 +52,13 @@ public class Transaction {
     public double getPigcoins() {
         return this.pigcoins;
     }
+
+    public String getPrev_hash() {
+        return this.prev_hash;
+    }
+
+    public String getHash() {
+        return this.hash;
+    }
 }
 
