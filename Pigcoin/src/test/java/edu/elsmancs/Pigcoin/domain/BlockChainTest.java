@@ -1,18 +1,35 @@
 package edu.elsmancs.Pigcoin.domain;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BlockChainTest {
 
+    private Wallet origin = null;
+    private Wallet wallet_1 = null;
+    private Transaction trx = null;
+    private BlockChain bChain = null;
+
+    @Before
+    public void setupTest() {
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+
+        BlockChain bChain = new BlockChain();
+        Transaction trx = new Transaction();
+    }
+
     @Test
     public void generarBlockChainTest() {
-        BlockChain blockChain = new BlockChain();
-        Transaction transaction = new Transaction();
-        blockChain.addOrigin(transaction);
-        assertNotNull(transaction);
-        assertNotNull(blockChain);
-        assertEquals(blockChain.getBlockChain().get(0), transaction);
+        BlockChain bChain = new BlockChain();
+        Transaction trx = new Transaction();
+        bChain.addOrigin(trx);
+        assertNotNull(trx);
+        assertNotNull(bChain);
+        assertEquals(bChain.getBlockChain().get(0), trx);
     }
 
 
