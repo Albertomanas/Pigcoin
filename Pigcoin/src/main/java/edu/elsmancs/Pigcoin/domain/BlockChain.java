@@ -37,6 +37,8 @@ public class BlockChain {
         }));
     }
 
+
+
     public double[] loadWallet(PublicKey address) {
         /**Carga en el wallet los pigcoins enviados y recibidos en esa dirección
          *
@@ -45,6 +47,9 @@ public class BlockChain {
          *          entonces los pigcoins de in se añaden a la cantidad de pigcoins de este.
          *
          * En caso de que apunte a sender, se suma a este.
+         *
+         * FALTA REFACTORIZAR CREANDO loadInputTransaction y loadOutputTransaction a lista y con
+         *      uso de stream, filter, collect en una estructura de datos de List.
          */
         double pigcoinsEntrada = 0d;
         double pigcoinsSalida = 0d;
@@ -78,30 +83,70 @@ public class BlockChain {
         return this.consumedCoins;
     }
 
-    /**public boolean isConsumedCoinValid(Map<String, Double> consumedCoins) {
-    }
+    /**
+     * Verifica que los pigcoins que se intentan enviar en la transacción no se han gastado antes
+     *  así que proviene de una transacción que aún no sé ha utilizado.
+     * @param consumedCoins
+     * @return
      */
 
-   private void require(Boolean holds) throws Exception {
-       if (!holds) {
-           throw new Exception();
-       }
-   }
+    public boolean isConsumedCoinValid(Map<String, Double> consumedCoins) {
+        for (String hashKey : consumedCoins.keySet()) {
+            for (Transaction transaction : blockChain) {
+                if (hashKey.equals(transaction.getPrev_hash())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    /**
+     *  Añade al BlockChain una transacción cuando es todo correcto.
+     *  Método resuelto con la ayuda del código de dFleta.
+     * @param pKey_sender
+     * @param pKey_recipient
+     * @param consumedCoins
+     * @param message
+     * @param signedTransaction
+     */
+    public void createTransactions(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
+                                   String message, byte[] signedTransaction) {
 
-   /**public void processTransactions(PublicKey pKey_recipient, Map<String, Double> consumedCoins, byte[] signedTransaction) {
+        PublicKey address_recipient = pKey_recipient;
+        Integer lastBlock = 0;
 
-        try {
-            require();
-        } catch (Exception e){}
-   }
+        for (String prev_hash : consumedCoins.keySet()) {
+            if (prev_hash.startsWith("CA_")) {
+                pKey_recipient = pKey_sender;
 
-   /**public void createTransaction(PublicKey pKey_sender, String message, byte[] signedTransaction){
+                /**
+                 * startsWith si empieza por la String "CA_"
+                 */
 
-        try {
-            requite();
-        } catch (Exception e){}
-   }
-    */
+                lastBlock = blockChain.size() + 1;
+                Transaction transaction = new Transaction("hash_" + lastBlock.toString(), prev_hash, pKey_sender,
+                        pKey_recipient, consumedCoins.get(prev_hash), message);
+                getBlockChain().add(transaction);
+
+                pKey_recipient = address_recipient;
+            }
+        }
+    }
+
+    /**
+     * Process Transaction tiene que cumplir:
+     *  isSignatureValid(public_Key, message, signedTransaction)
+     *  isConsumedCoinValid(consumedCoins);
+     *  createTransaction(pKey_sender, pKey_recipient, consumedCoins,message, signedTransaction);
+     */
+
+    public void processTransaction(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
+                                   String message, byte[] signedTransaction) {
+        if (isSignatureValid(pKey_sender, message, signedTransaction) && isConsumedCoinValid(consumedCoins)) {
+            createTransactions(pKey_sender, pKey_recipient, consumedCoins, message, signedTransaction);
+        }
+    }
+
 }
 
