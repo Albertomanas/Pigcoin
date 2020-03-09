@@ -4,9 +4,7 @@ package edu.elsmancs.Pigcoin.domain;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Wallet {
 
@@ -128,8 +126,6 @@ public class Wallet {
     public void loadInputTransactions(BlockChain bChain) {
         /**
          * REFACTORIZACIÓN a stream, filter y collectors
-         *
-         * FALTA REFACTORIZAR A LISTA
          */
 
         bChain.getBlockChain().stream().filter(transaction -> transaction.getpKeyRecipient().equals(getAddress())).forEachOrdered(transaction -> {
@@ -154,9 +150,6 @@ public class Wallet {
     public void loadOutputTransactions(BlockChain bChain) {
         /**
          * REFACTORIZACiÓN a stream, filter y collectors.
-         *
-         *
-         * FALTA REFACTORIZAR A LISTA.
          */
 
         bChain.getBlockChain().stream().filter(transaction -> transaction.getPkeySender().equals(getAddress())).forEachOrdered(transaction -> {
@@ -182,4 +175,58 @@ public class Wallet {
         return GenSig.sign(getSkey(), message);
     }
 
+    public Map<String, Double> collectCoins(Double pigcoins) {
+
+        Map<String, Double> copyCollectCoins = new LinkedHashMap<>();
+
+        if (getInputTransactions() == null) {
+            return null;
+            /**
+             *  Transacciones que se han enviado desde la Wallet (Transacciones consumibles)
+             */
+        }
+        if (pigcoins > getBalance()) {
+            return null;
+
+            /**
+             * Si el coste es mayor a los pigcoins en posesión.
+             */
+        }
+        Double achievedCoins = 0d;
+
+
+        /**
+         * Método sacado en base al código hecho de dFleta
+         */
+        Collection<String> consumedCoins = new HashSet<>();
+        if (getOutputTransactions() != null) {
+            for (Transaction transaction : getOutputTransactions()) {
+                consumedCoins.add(transaction.getPrev_hash());
+            }
+        }
+
+        for (Transaction transaction : getInputTransactions()) {
+            if (consumedCoins.contains(transaction.getPrev_hash())) {
+                continue;
+            }
+
+            if (transaction.getPigcoins() == pigcoins) {
+                copyCollectCoins.put(transaction.getHash(), transaction.getPigcoins());
+                consumedCoins.add(transaction.getHash());
+                break;
+
+            } else if (transaction.getPigcoins() > pigcoins) {
+                copyCollectCoins.put(transaction.getHash(), pigcoins);
+                copyCollectCoins.put("CA_" + transaction.getHash(), transaction.getPigcoins() - pigcoins);
+                consumedCoins.add(transaction.getHash());
+                break;
+            } else {
+                copyCollectCoins.put(transaction.getHash(), transaction.getPigcoins());
+                achievedCoins = transaction.getPigcoins();
+                pigcoins = pigcoins - achievedCoins;
+                consumedCoins.add(transaction.getHash());
+            }
+        }
+        return copyCollectCoins;
+    }
 }
