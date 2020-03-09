@@ -50,6 +50,7 @@ public class BlockChain {
          *
          * FALTA REFACTORIZAR CREANDO loadInputTransaction y loadOutputTransaction a lista y con
          *      uso de stream, filter, collect en una estructura de datos de List.
+         *      No es conveniente que wallet conozca la encapsulación de BlockChain.
          */
         double pigcoinsEntrada = 0d;
         double pigcoinsSalida = 0d;
