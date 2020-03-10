@@ -14,8 +14,8 @@ public class Wallet {
     private double total_output = 0d;
     private double balance = 0d;
 
-    private final List<Transaction> inputTransactions = new ArrayList<>();
-    private final List<Transaction> outputTransactions = new ArrayList<>();
+    private List<Transaction> inputTransactions = new ArrayList<>();
+    private List<Transaction> outputTransactions = new ArrayList<>();
 
 
     public Wallet() {
@@ -163,6 +163,14 @@ public class Wallet {
 
     public List<Transaction> getOutputTransactions() {
         return outputTransactions;
+    }
+
+    public void setInputTransactions(List<Transaction> inputTransactions) {
+        this.inputTransactions = inputTransactions;
+    }
+
+    public void setOutputTransactions(List<Transaction> outputTransactions) {
+        this.outputTransactions = outputTransactions;
     }
 
     /**public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain) {
